@@ -86,7 +86,7 @@
                     <p> No reviews for this course yet :( </p>
                     <p>If you have taken this course, please consider contributing by submitting a review :) </p>
                 </blockquote>
-                {% else %} {% for review_i in reviews %}
+                {% else %} {% for review_i in reviews|reverse %}
                 <i>{{ review_i.time }}</i>
                 </br>
                 <blockquote>
