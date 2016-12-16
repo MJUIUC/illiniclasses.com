@@ -1,7 +1,7 @@
-from flask import Flask, flash, render_template, request, url_for, redirect
+from flask import Flask, flash, render_template, request, url_for, redirect, jsonify
 from data import SearchBar, CourseData
 from flask_pymongo import PyMongo
-# from db_credential import db_name, db_uri 	# For running locally (Heroku config vars for online)
+from db_credential import db_name, db_uri 	# For running locally (Heroku config vars for online)
 import requests
 from xmljson import badgerfish as bf
 from xml.etree.ElementTree import fromstring
@@ -9,7 +9,7 @@ from json import dumps
 # from database_setup import update 	# Use to update db
 import time  
 import os 								# For Heroku config vars
-
+import course_id_cache
 
 app = Flask(__name__)
 
@@ -17,18 +17,23 @@ app.config['MONGO_DBNAME'] = os.environ.get('DB_NAME')
 app.config['MONGO_URI'] = os.environ.get('DB_URI')
 
 # For running locally
-# app.config['MONGO_DBNAME'] = os.environ.get('DB_NAME', db_name)
-# app.config['MONGO_URI'] = os.environ.get('DB_URI', db_uri)
+app.config['MONGO_DBNAME'] = os.environ.get('DB_NAME', db_name)
+app.config['MONGO_URI'] = os.environ.get('DB_URI', db_uri)
 
 mongo = PyMongo(app)
 
 app.secret_key = 'development-key'
+
+# @app.before_first_request
+# def setup_course_cache():
+# 	course_id_cache.get_course_ids(mongo)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
 	search_form = SearchBar()
 	if request.method == 'GET':
 		LOG = mongo.db['LOG']
+
 		return render_template('index.html', search_bar=search_form, num_reviews=LOG.count())
 
 	elif request.method == 'POST':
@@ -45,6 +50,7 @@ def index():
 		if is_input_valid(department_id, course_number) == True:
 			return redirect(url_for('review_page', course=department_id+course_number))
 		else:
+			flash("Couldn't find class: {} {}".format(department_id, course_number))
 			return redirect(url_for('index'))
 
 @app.route('/<course>', methods=['GET', 'POST'])
@@ -56,7 +62,7 @@ def review_page(course):
 	'''
 	review_form = CourseData()
 	search_form = SearchBar()
-	
+
 	# Convert to uppercase and remove white spaces
 	course = course.upper().replace(" ", "")
 	# Get department id (e.g. CS) and course number in form of strings
@@ -81,6 +87,7 @@ def review_page(course):
 			if is_input_valid(department_id, course_number) == True:
 				return redirect(url_for('review_page', course=department_id+course_number))
 			else:
+				flash("Couldn't find class: {} {}".format(department_id, course_number))
 				return redirect(url_for('review_page', course=course))
 
 		else:
@@ -192,6 +199,12 @@ def get_workload_color(workload):
 		return 'btn btn-warning'
 	else:
 		return 'btn btn-danger'
+
+
+@app.route('/autocomplete', methods=['GET'])
+def autocomplete():
+	return jsonify(course_id_cache.get_course_ids(mongo))
+
 
 if __name__ == '__main__':
   app.run(debug=True)

@@ -2,44 +2,46 @@
 <html>
 
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <meta name="description" content="A crowdsourced course review at UIUC">
-    <meta name="keywords" content="UIUC, U of I, Illinois, Course Review, CS 225, CS 374, ECE 391, CS electives, What courses to take">
-    <meta name="author" content="Phillip Le, Shane Neary">
-
+    {% include "head.html" %}
     <title>Illini Classes | A crowdsourced course review at UIUC</title>
-    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
-    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css'>
-    <link rel='stylesheet' type='text/css' href='../static/css/review-styles.css'>
     <link rel='stylesheet' type='text/css' href='../static/css/index-styles.css'>
+    {% include "autocomplete.html" %}
 </head>
 
 <body>
+
     <div class='container-fluid'>
-        <h6><i>Contact: <a href='mailto:phule2@illinois.edu' target="_top">Phillip</a> or <a href='mailto:shanennn@gmail.com' target="_top">Shane</a></i></h6>
-        <div class='col-lg-3 col-md-3 col-sm-2 col-xs-1'>
-            <!-- Dummy div -->
-        </div>
-        <div class='input-group col-lg-6 col-md-6 col-sm-8 col-xs-10'>
-            <h1 id='title'>Illini Classes</h1> 
-            <h6 id='crowdsource'>... a crowdsourced course review at UIUC</h6>
-            <h6><i> We have </i><span style='color: #FA6300;font-size: 1.5em'><b> {{ num_reviews }} </b></span><i> awesome reviews so far</i></h6>
-            <form method='POST'>
-                <div id='search-bar' class='input-group'>
+        <div class='row'>
+            <h6><i>Contact: <a href='mailto:phule2@illinois.edu' target="_top">Phillip</a> or <a href='mailto:shanennn@gmail.com' target="_top">Shane</a></i></h6>
+            <div class='col-lg-3 col-md-3 col-sm-2 col-xs-1'>
+                <!-- Dummy div -->
+            </div>
+            <div class='input-group col-lg-6 col-md-6 col-sm-8 col-xs-10'>
+                <h1 id='title'>Illini Classes</h1> 
+                <h6 id='crowdsource'>... a crowdsourced course review at UIUC</h6>
+                <h6><i> We have </i><span style='color: #FA6300;font-size: 1.5em'><b> {{ num_reviews }} </b></span><i> awesome reviews so far</i></h6>
+                <form method='POST'>
+                    <div id='search-bar' class='input-group'>
 
-                    {{ search_bar.course_name(class='form-control', placeholder="Enter a class, e.g. ECON 102") }}
+                        {{ search_bar.course_name(class='form-control', placeholder="Enter a class, e.g. ECON 102") }}
 
-                    <span class='input-group-btn'>
-						{{ search_bar.submit(class='btn btn-success')}}
-					</span>
-                </div>
-            </form>
+                        <span class='input-group-btn'>
+    						{{ search_bar.submit(class='btn btn-success')}}
+    					</span>
+                    </div>
+                </form>
+            </div>
+            <div class='col-lg-3 col-md-3 col-sm-2 col-xs-1'>
+                <!-- Dummy div -->
+            </div>
         </div>
-        <div class='col-lg-3 col-md-3 col-sm-2 col-xs-1'>
-            <!-- Dummy div -->
+        <div class="row">
+            <div class='col-lg-3 col-md-3 col-sm-2 col-xs-1'>
+                <!-- Dummy div -->
+            </div>
+            {% with column_size="col-lg-6 col-md-6 col-sm-8 col-xs-10" %}
+            {% include "messages.html" %}
+            {% endwith %}
         </div>
     </div>
     </div>

@@ -2,17 +2,19 @@
 <html>
 
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    
+    {% include "head.html" %}
     <title>Review Page</title>
-    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
-    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css'>
     <link rel='stylesheet' type='text/css' href='../static/css/review-styles.css'>
+    {% include "autocomplete.html" %}
 </head>
 
 <body>
+    <div class='row'>
+        <div class='col-lg-1 col-md-1 col-sm-0 col-xs-0'></div>
+        {% with column_size="col-lg-10 col-md-10 col-sm-12 col-xs-12" %}
+        {% include "messages.html" %}
+        {% endwith %}
+    </div>
     <div class='row'>
         <div class='col-lg-1 col-md-1 col-sm-0 col-xs-0'></div>
         <div class='col-lg-10 col-md-10 col-sm-12 col-xs-12'>
