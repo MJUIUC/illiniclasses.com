@@ -12,3 +12,10 @@ XX 3. Create a new collection to store statistics (number of searches, visits, e
 4. Display error message if possible
 5. Round workload 
 6. Use AJAX for sugguesting courses
+
+
+//	TODO for Marcus (12/19/2016)
+I think that people might use this more often if there were user interactions. Reviews should probably be ranked whith the higher
+rated reviews near the top. Users should also be able to comment on one anothers reviews. That'll give your site more interaction and
+force participants to be more honest... Or atleast, the more honest reviews will rise to the top of the comments section. Let me know
+what you guys think. I'll start looking into it if you all agree with my thoughts.
